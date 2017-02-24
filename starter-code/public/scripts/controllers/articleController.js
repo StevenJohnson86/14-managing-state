@@ -16,7 +16,7 @@
   };
 
   // TODO: Middleware for loading up articles by a certain author. Where does it get its input data? Where is its output used?
-  // Put your response in this comment...
+  // It gets it's input from the route that is accessed. This is possible through routes.js and pagejs middleware.
   articleController.loadByAuthor = (ctx, next) => {
     let authorData = articlesByAuthor => {
       ctx.articles = articlesByAuthor;

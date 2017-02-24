@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const requestProxy = require('express-request-proxy');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const conString = 'postgres://localhost:5432'; // TODO: Don't forget to set your own conString
+// const conString = 'postgres://localhost:5432';
+const conString = 'postgres://steven:123qwe@localhost:5432/postgres'; // DONE: Don't forget to set your own conString
 const client = new pg.Client(conString);
 client.connect(console.error);
 
@@ -15,8 +16,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./public'));
 
 
-// TODO: Describe what our function for our middleware / proxy handling interacts with, both in what it does and where it is called
-// Put your response in this comment...
+// DONE: Describe what our function for our middleware / proxy handling interacts with, both in what it does and where it is called
+// This function uses express-request-proxy to securely access the github api using a GITHUB_TOKEN from our process environment.
 function proxyGitHub(request, response) {
   console.log('Routing GitHub request for', request.params[0]);
   (requestProxy({
@@ -30,8 +31,8 @@ function proxyGitHub(request, response) {
 app.get('/', (request, response) => response.sendFile('index.html', {root: './public'}));
 app.get('/new', (request, response) => response.sendFile('new.html', {root: './public'}));
 app.get('/about', (request, response) => response.sendFile('index.html', {root: './public'}));
-// TODO: Where is this route called in the code? When invoked, what happens next?
-// Put your response in this comment...
+// DONE: Where is this route called in the code? When invoked, what happens next?
+// This is being called when we access any route that starts with /github/. Specifically it is being called in repos.js (the requestRepos method). When invoked, it calls the proxyGitHub function above.
 app.get('/github/*', proxyGitHub);
 
 
@@ -68,8 +69,8 @@ app.get('/articles', (request, response) => {
 });
 
 
-// TODO: This is a new route to find a specific instance of an article record from the DB. Where is it invoked? What does it do?
-// Put your response in this comment...
+// DONE: This is a new route to find a specific instance of an article record from the DB. Where is it invoked? What does it do?
+// It is invoked in article.js in the Article.findWhere method. It is using a SQL query to select the specified article(s) from the database, and returns them.
 app.get('/articles/find', (request, response) => {
   let client = new pg.Client(conString);
   let sql = `SELECT * FROM articles
@@ -92,8 +93,8 @@ app.get('/articles/find', (request, response) => {
 })
 
 
-// TODO: Where is this route invoked? What does it do?
-// Put your response in this comment...
+// DONE: Where is this route invoked? What does it do?
+// It is invoked in article.js in the method Article.allCategories. It is making a sql query to the database and returns unique categories from the articles table.
 app.get('/categories', (request, response) => {
   let client = new pg.Client(conString);
 
@@ -197,8 +198,8 @@ app.delete('/articles/:id', (request, response) => {
   response.send('Delete complete');
 });
 
-// TODO: Where is this invoked? What does it do?
-// Put your response in this comment...
+// DONE: Where is this invoked? What does it do?
+// This is making a sql query to the database telling it to delete everything from the articles table. It returns a 'Delete complete' message.
 app.delete('/articles', (request, response) => {
   client.query(
     'DELETE FROM articles;'
