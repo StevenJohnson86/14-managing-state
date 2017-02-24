@@ -34,10 +34,10 @@
     });
   };
 
-  // TODO: Combine both filter functions to a single event handler,
+  // DONE: Combine both filter functions to a single event handler,
   // which simply redirects to a url like: /category/skateboarding or /author/Kevin+Bacon
   // Where is it invoked? What values are passed in? Where does it interact elsewhere in the code?
-  // Put your response in this comment...
+  // It is invoked in articleView.index. The values passed in are the filter option selected by the user. It interacts with routes.js.
   articleView.handleFilters = function() {
     $('#filters').one('change', 'select', function() {
       let resource = this.id.replace('-filter', '');
@@ -67,8 +67,8 @@
     articleView.populateFilters();
     articleView.handleFilters();
 
-    // TODO: Replace setTeasers with just the truncation logic, if needed. Where is it invoked? What values are passed in? Where does it interact elsewhere in the code?
-    // Put your response in this comment...
+    // DONE: Replace setTeasers with just the truncation logic, if needed. Where is it invoked? What values are passed in? Where does it interact elsewhere in the code?
+    // It is inkvoked in the articleController. The values being passed in are all the article objects. It interacts with the code elsewhere in server.js by telling the method which articles to hide. 
     if ($('#articles article').length > 1) {
       $('.article-body *:nth-of-type(n+2)').hide();
     }
